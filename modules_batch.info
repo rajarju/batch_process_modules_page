@@ -1,4 +1,5 @@
 name = "Modules Form Batch Process"
 description = Converts the Modules form submission into a Batch Process.
 core = 7.x
+version = 7.x.1.x-dev
 files[] = modules_batch.module
