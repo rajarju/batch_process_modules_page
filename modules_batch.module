@@ -140,7 +140,8 @@ function _modules_batch_submit($form, &$form_state) {
     }
   }
 
-  // Gets list of modules prior to install process, unsets $form_state['storage']
+  // Gets list of modules prior to install process,
+  // unsets $form_state['storage'].
   // so we don't get redirected back to the confirmation form.
   $pre_install_list = module_list();
   unset($form_state['storage']);
@@ -172,7 +173,7 @@ function _modules_batch_submit($form, &$form_state) {
   if (count($batch['operations'])) {
     batch_set($batch);
   }
-  else{
+  else {
     drupal_goto('admin/modules');
   }
 }
@@ -190,13 +191,13 @@ function _modules_batch_uninstall_submit(&$form, &$form_state) {
     $modules = array_keys($form_state['values']['uninstall']);
 
     $batch = array(
-        'finished' => '_modules_batch_uninstall_finish',
-        'title' => t('Processing Modules'),
-        'init_message' => t('Preparing Module List'),
-        'progress_message' => t('Processed @current out of @total.'),
-        'error_message' => t('Modules Submission has encountered a problem'),
-        'operations' => array(),
-        'sandbox' => array(),
+      'finished' => '_modules_batch_uninstall_finish',
+      'title' => t('Processing Modules'),
+      'init_message' => t('Preparing Module List'),
+      'progress_message' => t('Processed @current out of @total.'),
+      'error_message' => t('Modules Submission has encountered a problem'),
+      'operations' => array(),
+      'sandbox' => array(),
     );
 
     foreach ($modules as $module) {
@@ -217,8 +218,7 @@ function _modules_batch_uninstall_submit(&$form, &$form_state) {
 }
 
 /**
- * Callback
- * _modules_batch_enable
+ * Callback _modules_batch_enable.
  */
 function _modules_batch_enable($module, &$context) {
   if (!isset($context['sandbox']['progress'])) {
@@ -233,8 +233,7 @@ function _modules_batch_enable($module, &$context) {
 }
 
 /**
- * Callback.
- * _modules_batch_disable
+ * Callback _modules_batch_disable.
  */
 function _modules_batch_disable($module, &$context) {
   if (!isset($context['sandbox']['progress'])) {
@@ -252,8 +251,7 @@ function _modules_batch_disable($module, &$context) {
 }
 
 /**
- * Function to handle the batch process finish.
- * modules_batch_finish
+ * Function to handle the batch process finish modules_batch_finish.
  */
 function _modules_batch_finish($success, $results, $operations) {
   if ($success) {
@@ -285,8 +283,7 @@ function _modules_batch_finish($success, $results, $operations) {
 }
 
 /**
- * Callback.
- * modules_batch_uninstall
+ * Callback modules_batch_uninstall.
  */
 function _modules_batch_uninstall($module, &$context) {
   if (!isset($context['sandbox']['progress'])) {
@@ -303,8 +300,7 @@ function _modules_batch_uninstall($module, &$context) {
 }
 
 /**
- * Function to handle the batch process finish.
- * modules_batch_uninstall_finish
+ * Function to handle the batch process finish modules_batch_uninstall_finish.
  */
 function _modules_batch_uninstall_finish($success, $results, $operations) {
   if ($success) {
@@ -322,7 +318,7 @@ function _modules_batch_uninstall_finish($success, $results, $operations) {
     $error_operation = reset($operations);
     $message = t('An error occurred while processing %error_operation with arguments: @arguments', array(
       '%error_operation' => $error_operation[0],
-      '@arguments' => print_r($error_operation[1], TRUE)
+      '@arguments' => print_r($error_operation[1], TRUE),
     ));
   }
   drupal_set_message($message);
