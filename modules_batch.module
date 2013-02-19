@@ -13,7 +13,6 @@
  */
 function modules_batch_form_system_modules_alter(&$form, $form_state) {
   $form['#submit'] = array('_modules_batch_submit');
-  //dsm($form);
 }
 
 /**
@@ -39,13 +38,13 @@ function _modules_batch_submit($form, &$form_state) {
         $modules[$module] = array('group' => $group_name, 'enabled' => $enabled['enable']);
       }
     }
-  } else {
+  } 
+  else {
     // If we are coming from the confirmation form, fetch
     // the modules out of $form_state.
     $modules = $form_state['storage']['modules'];
   }
 
-  //dsm($modules, 'modules');
   // Collect data for all modules to be able to determine dependencies.
   $files = system_rebuild_module_data();
 
@@ -60,7 +59,6 @@ function _modules_batch_submit($form, &$form_state) {
   $more_required = array();
   $missing_modules = array();
 
-
   foreach ($modules as $name => $module) {
     if ($module['enabled']) {
       // Checks that all dependencies are set to be enabled.  Stores the ones
@@ -72,7 +70,8 @@ function _modules_batch_submit($form, &$form_state) {
           if (isset($files[$required])) {
             $dependencies[] = $files[$required]->info['name'];
             $modules[$required]['enabled'] = TRUE;
-          } else {
+          } 
+          else {
             $missing_modules[$required]['depends'][] = $name;
             $modules[$name]['enabled'] = FALSE;
           }
@@ -82,8 +81,8 @@ function _modules_batch_submit($form, &$form_state) {
       // Stores additional modules that need to be enabled in $more_required.
       if (!empty($dependencies)) {
         $more_required[$name] = array(
-            'name' => $files[$name]->info['name'],
-            'requires' => $dependencies,
+          'name' => $files[$name]->info['name'],
+          'requires' => $dependencies,
         );
       }
     }
@@ -92,9 +91,9 @@ function _modules_batch_submit($form, &$form_state) {
   // Redirects to confirmation form if more modules need to be enabled.
   if ((!empty($more_required) || !empty($missing_modules)) && !isset($form_state['values']['confirm'])) {
     $form_state['storage'] = array(
-        'more_required' => $more_required,
-        'modules' => $modules,
-        'missing_modules' => $missing_modules,
+      'more_required' => $more_required,
+      'modules' => $modules,
+      'missing_modules' => $missing_modules,
     );
     $form_state['rebuild'] = TRUE;
     return;
@@ -120,9 +119,9 @@ function _modules_batch_submit($form, &$form_state) {
 
   // Initializes array of actions.
   $actions = array(
-      'enable' => array(),
-      'disable' => array(),
-      'install' => array(),
+    'enable' => array(),
+    'disable' => array(),
+    'install' => array(),
   );
 
   // Builds arrays of modules that need to be enabled, disabled, and installed.
@@ -131,15 +130,16 @@ function _modules_batch_submit($form, &$form_state) {
       if (drupal_get_installed_schema_version($name) == SCHEMA_UNINSTALLED) {
         $actions['install'][] = $name;
         $actions['enable'][] = $name;
-      } elseif (!module_exists($name)) {
+      } 
+      elseif (!module_exists($name)) {
         $actions['enable'][] = $name;
       }
-    } elseif (module_exists($name)) {
+    } 
+    elseif (module_exists($name)) {
       $actions['disable'][] = $name;
     }
   }
 
-  //dsm($actions);
   // Gets list of modules prior to install process, unsets $form_state['storage']
   // so we don't get redirected back to the confirmation form.
   $pre_install_list = module_list();
@@ -150,13 +150,13 @@ function _modules_batch_submit($form, &$form_state) {
 
   //Prepare the Batch Process
   $batch = array(
-      'finished' => '_modules_batch_finish',
-      'title' => t('Processing Modules'),
-      'init_message' => t('Preparing Module List'),
-      'progress_message' => t('Processed @current out of @total.'),
-      'error_message' => t('Modules Submission has encountered a problem'),
-      'operations' => array(),
-      'sandbox' => array('pre_install_list' => $pre_install_list)
+    'finished' => '_modules_batch_finish',
+    'title' => t('Processing Modules'),
+    'init_message' => t('Preparing Module List'),
+    'progress_message' => t('Processed @current out of @total.'),
+    'error_message' => t('Modules Submission has encountered a problem'),
+    'operations' => array(),
+    'sandbox' => array('pre_install_list' => $pre_install_list)
   );
 
   //dsm($actions);
@@ -175,11 +175,6 @@ function _modules_batch_submit($form, &$form_state) {
     batch_set($batch);
   else
     drupal_goto('admin/modules');
-
-  // Installs, enables, and disables modules.
-  //module_enable($actions['enable'], FALSE);
-  //module_disable($actions['disable'], FALSE);
-  //$form_state['redirect'] = 'admin/modules';
 }
 
 /**
@@ -217,7 +212,8 @@ function _modules_batch_uninstall_submit(&$form, &$form_state) {
       drupal_goto('admin/modules/uninstall');
 
     //$form_state['redirect'] = 'admin/modules/uninstall';
-  } else {
+  } 
+  else {
     $form_state['storage'] = $form_state['values'];
     $form_state['rebuild'] = TRUE;
   }
@@ -270,11 +266,13 @@ function _modules_batch_finish($success, $results, $operations) {
       
       drupal_flush_all_caches();
       $message = t('The configuration options have been saved.');
-    } else {
+    } 
+    else {
 
       $message = t('Nothing Happened here');
     }
-  } else {
+  } 
+  else {
     // An error occurred.
     // $operations contains the operations that remained unprocessed.
     $error_operation = reset($operations);
@@ -313,11 +311,13 @@ function _modules_batch_uninstall_finish($success, $results, $operations) {
     if (count($results)) {
       drupal_flush_all_caches();
       $message = t('The configuration options have been saved.');
-    } else {
+    } 
+    else {
 
       $message = t('Nothing Happened here');
     }
-  } else {
+  } 
+  else {
     // An error occurred.
     // $operations contains the operations that remained unprocessed.
     $error_operation = reset($operations);
