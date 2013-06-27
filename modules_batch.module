@@ -102,7 +102,8 @@ function _modules_batch_submit($form, &$form_state) {
   // Invokes hook_requirements('install').  If failures are detected, makes sure
   // the dependent modules aren't installed either.
   foreach ($modules as $name => $module) {
-    // Only invoke hook_requirements() on modules that are going to be installed.
+    // Only invoke hook_requirements() 
+    // on modules that are going to be installed.
     if ($module['enabled'] && drupal_get_installed_schema_version($name) == SCHEMA_UNINSTALLED) {
 
       if (!drupal_check_module($name)) {
