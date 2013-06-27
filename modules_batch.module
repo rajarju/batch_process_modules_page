@@ -4,7 +4,6 @@
  * @file
  * Drupal Module: Modules Form Batch Process
  * Converts the Drupals Modules Form submission into a Batch process
- *
  */
 
 /**
