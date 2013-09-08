@@ -171,6 +171,7 @@ function _modules_batch_submit($form, &$form_state) {
 
   if (count($batch['operations'])) {
     batch_set($batch);
+    batch_process('admin/modules');
   }
   else {
     drupal_goto('admin/modules');
@@ -205,6 +206,7 @@ function _modules_batch_uninstall_submit(&$form, &$form_state) {
 
     if (count($batch['operations'])) {
       batch_set($batch);
+      batch_process('admin/modules/uninstall');
     }
     else {
       drupal_goto('admin/modules/uninstall');
@@ -228,7 +230,7 @@ function _modules_batch_enable($module, &$context) {
 
   $context['sandbox']['progress']++;
   $context['results'][] = $module;
-  $context['message'] = t('Enabling %module Module', array('%module' => $module));
+  $context['message'] = t('Enabled %module Module', array('%module' => $module));
 }
 
 /**
@@ -246,7 +248,7 @@ function _modules_batch_disable($module, &$context) {
 
   $context['sandbox']['progress']++;
   $context['results'][] = $module;
-  $context['message'] = t('Disabling %module Module', array('%module' => $module));
+  $context['message'] = t('Disabled %module Module', array('%module' => $module));
 }
 
 /**
@@ -278,7 +280,7 @@ function _modules_batch_finish($success, $results, $operations) {
   }
 
   drupal_set_message($message);
-  drupal_goto('admin/modules');
+
 }
 
 /**
@@ -295,7 +297,7 @@ function _modules_batch_uninstall($module, &$context) {
 
   $context['sandbox']['progress']++;
   $context['results'][] = $module;
-  $context['message'] = t('Uninstalling %module Module', array('%module' => $module));
+  $context['message'] = t('Uninstalled %module Module', array('%module' => $module));
 }
 
 /**
@@ -321,5 +323,4 @@ function _modules_batch_uninstall_finish($success, $results, $operations) {
     ));
   }
   drupal_set_message($message);
-  drupal_goto('admin/modules/uninstall');
 }
