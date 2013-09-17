@@ -10,14 +10,18 @@
  * Implements hook_form_FORM_ID_alter().
  */
 function modules_batch_form_system_modules_alter(&$form, $form_state) {
-  $form['#submit'] = array('_modules_batch_submit');
+  // Remove System Callback
+  unset($form['#submit'][array_search("system_modules_uninstall_submit", $form['#submit'])]);
+  $form['#submit'][] = '_modules_batch_submit';
 }
 
 /**
  * Implements hook_form_system_modules_uninstall_alter().
  */
 function modules_batch_form_system_modules_uninstall_alter(&$form, $form_state) {
-  $form['#submit'] = array('_modules_batch_uninstall_submit');
+  // Remove System Callback
+  unset($form['#submit'][array_search("system_modules_uninstall_submit", $form['#submit'])]);
+  $form['#submit'][] = '_modules_batch_uninstall_submit';
 }
 
 /**
