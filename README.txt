@@ -11,6 +11,9 @@ Copy the module to your module directory and then enable on the admin
 modules page.  Once enabled it will take up all submissions
 to the Modules form and run them as a batch process
 
+Drupal Project page
+-------------------
+https://drupal.org/project/batch_process_modules_page
 
 Authors
 ------
