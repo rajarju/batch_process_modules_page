@@ -12,7 +12,7 @@ modules page.  Once enabled it will take up all submissions
 to the Modules form and run them as a batch process
 
 
-Author
+Authors
 ------
-naughty_david	
-arjun@athousandnodes.com
+rajarju
+arshadcn
